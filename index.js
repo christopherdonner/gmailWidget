@@ -92,10 +92,11 @@ function listLabels(auth) {
 function browseInbox(auth){
   const gmail = google.gmail({version: 'v1', auth});
   gmail.users.messages.list({
-    userId: 'me'
+    userId: 'christopher.donner@gmail.com'
   }, (err, res) => {
     let Messages=res.data.messages
     if(Messages.length){
+      console.log(res)
     console.log('Messages')
     Messages.forEach((message) => {
       console.log(`- ${message.id}`)
