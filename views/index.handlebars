@@ -1,0 +1,12 @@
+<div class="messages">Messages will go here
+    <ul>
+  {{#each Msg}}
+    <li>
+      <p>
+        <div>{{this.sizeEstimate}}</div>>
+        <button data-messageid="{{this.id}}" class="deleteMsg btn btn-warning">{{this.id}}</button>
+      </p>
+    </li>
+  {{/each}}
+</ul>
+</div>
