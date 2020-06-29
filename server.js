@@ -22,7 +22,8 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = 'token.json';
-var Messages=[]
+var Messages=[];
+var MessagesArray=[];
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
   if (err) return console.log('Error loading client secret file:', err);
@@ -117,6 +118,10 @@ function browseInbox(auth){
         id: message.id
       }, (er, resp)=>{
         console.log(resp)
+        // resp.forEach((message)=>{
+          MessagesArray.push(resp)
+        // })
+        // Messages=resp
       })
     })
   })
@@ -128,7 +133,7 @@ function browseInbox(auth){
   });
 
   app.get("/messages", function(req, res) {
-res.json(Messages);
+res.json(MessagesArray);
     });
 
   
