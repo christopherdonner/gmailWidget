@@ -128,7 +128,7 @@ function browseInbox(auth){
   }
 
   app.get("/", function (req, res) {
-    res.render("index", { Msg: Messages});
+    res.render("index", { Msg: MessagesArray});
     console.log('returning stuff')
   });
 
