@@ -22,7 +22,7 @@ const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = 'token.json';
-var Messages=[];
+var Messages={};
 var MessagesArray=[];
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
@@ -110,22 +110,50 @@ function browseInbox(auth){
   gmail.users.messages.list({
     userId: 'me'
   }, (err, res) => {
+    messagesObj=res.data.messages
     Messages=res.data.messages
     Messages.forEach((message)=>{
-      console.log(message.id)
+      // console.log(message.id)
       gmail.users.messages.get({
         userId: 'me',
         id: message.id
       }, (er, resp)=>{
-        console.log(resp)
+        // console.log(resp)
+        
         // resp.forEach((message)=>{
           MessagesArray.push(resp)
+          
         // })
         // Messages=resp
       })
     })
   })
+  bubbleSort(MessagesArray)
   }
+
+  function bubbleSort(arr) {
+    var sorted = false;
+  
+    while (!sorted) {
+      sorted = true;
+      for (var i = 0; i < arr.length; i++) {
+        // If the current element is larger than the next element, swap them and set sorted to `false`
+        console.log(arr[i].data.internalDate)
+        if (arr[i].data.internalDate > arr[i + 1].data.internalDate) {
+          sorted = false;
+          var temp = arr[i];
+          arr[i] = arr[i + 1];
+          arr[i + 1] = temp;
+        }
+      }
+    }
+    // If we looped through the array without having to swap anything, exit the while loop and return the array
+    return arr;
+  }
+
+  // MessagesArray.forEach((msg)=>{console.log(msg.data)})
+
+
 
   app.get("/", function (req, res) {
     res.render("index", { Msg: MessagesArray});
@@ -133,7 +161,7 @@ function browseInbox(auth){
   });
 
   app.get("/messages", function(req, res) {
-res.json(MessagesArray);
+res.json(messagesObj);
     });
 
   
@@ -144,6 +172,6 @@ app.listen(PORT, function() {
     PORT
   );
 });
-// });
+
 
 module.exports = app;
